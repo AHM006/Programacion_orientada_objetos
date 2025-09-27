@@ -1,0 +1,169 @@
+"""
+vehiculos.py
+
+Este módulo define clases para modelar vehículos usando Programación Orientada a Objetos (POO).
+Contiene una clase base Vehiculo y subclases Coche, Moto y Camion con atributos y métodos específicos.
+
+Clases:
+    - Vehiculo: Clase base con atributos comunes (marca, velocidad) y métodos para acelerar, frenar y mostrar datos.
+    - Coche: Subclase de Vehiculo que añ3ade número de puertas y consumo específico.
+    - Moto: Subclase de Vehiculo que añade tipo de casco recomendado y consumo específico.
+    - Camion: Subclase de Vehiculo que añade capacidad de carga y consumo específico.
+
+Ejemplo de uso:
+    coche1 = Coche("Toyota", 120, 4)
+    coche1.acelerar(30)
+    coche1.mostrar_datos()
+"""
+
+class Vehiculo:
+    """
+    Clase base para representar un vehículo genérico.
+
+    Atributos:
+        __marca (str): Marca del vehículo (privado).
+        __velocidad (float): Velocidad actual del vehículo en km/h (privado).
+    """
+
+    def __init__(self, marca: str, velocidad: float = 0):
+        """
+        Inicializa un nuevo Vehiculo.
+
+        Args:
+            marca (str): Marca del vehículo.
+            velocidad (float, opcional): Velocidad inicial. Por defecto es 0.
+        """
+        self.__marca = marca
+        self.__velocidad = velocidad
+
+    def acelerar(self, incremento: float):
+        """
+        Aumenta la velocidad del vehículo.
+
+        Args:
+            incremento (float): Cantidad de km/h a incrementar.
+        """
+        if incremento > 0:
+            self.__velocidad += incremento
+        else:
+            print("El incremento debe ser positivo.")
+
+    def frenar(self, decremento: float):
+        """
+        Disminuye la velocidad del vehículo.
+
+        Args:
+            decremento (float): Cantidad de km/h a disminuir.
+        """
+        if decremento > 0:
+            self.__velocidad = max(0, self.__velocidad - decremento)
+        else:
+            print("El decremento debe ser positivo.")
+
+    def mostrar_datos(self):
+        """
+        Muestra la información básica del vehículo.
+        """
+        print(f"Marca: {self.__marca}")
+        print(f"Velocidad: {self.__velocidad} km/h")
+
+    def consumo_combustible(self):
+        """
+        Método para calcular consumo de combustible.
+        Debe ser sobrescrito por subclases.
+        """
+        raise NotImplementedError("Este método debe implementarse en la subclase.")
+
+    @property
+    def marca(self):
+        return self.__marca
+
+    @property
+    def velocidad(self):
+        return self.__velocidad
+
+
+class Coche(Vehiculo):
+    """
+    Clase para representar un coche, hereda de Vehiculo.
+    """
+
+    def __init__(self, marca: str, velocidad: float = 0, num_puertas: int = 4):
+        super().__init__(marca, velocidad)
+        self.__num_puertas = num_puertas
+
+    def mostrar_datos(self):
+        """
+        Muestra información específica del coche.
+        """
+        super().mostrar_datos()
+        print(f"Número de puertas: {self.__num_puertas}")
+
+    def consumo_combustible(self):
+        """
+        Calcula el consumo de combustible del coche.
+        Fórmula ejemplo: velocidad / 15
+        """
+        return self.velocidad / 15
+
+
+class Moto(Vehiculo):
+    """
+    Clase para representar una moto, hereda de Vehiculo.
+    """
+
+    def __init__(self, marca: str, velocidad: float = 0, tipo_casco: str = "Integral"):
+        super().__init__(marca, velocidad)
+        self.__tipo_casco = tipo_casco
+
+    def mostrar_datos(self):
+        """
+        Muestra información específica de la moto.
+        """
+        super().mostrar_datos()
+        print(f"Tipo de casco recomendado: {self.__tipo_casco}")
+
+    def consumo_combustible(self):
+        """
+        Calcula el consumo de combustible de la moto.
+        Fórmula ejemplo: velocidad / 30
+        """
+        return self.velocidad / 30
+
+
+class Camion(Vehiculo):
+    """
+    Clase para representar un camión, hereda de Vehiculo.
+    """
+
+    def __init__(self, marca: str, velocidad: float = 0, capacidad_carga: float = 1000):
+        super().__init__(marca, velocidad)
+        self.__capacidad_carga = capacidad_carga
+
+    def mostrar_datos(self):
+        """
+        Muestra información específica del camión.
+        """
+        super().mostrar_datos()
+        print(f"Capacidad de carga: {self.__capacidad_carga} kg")
+
+    def consumo_combustible(self):
+        """
+        Calcula el consumo de combustible del camión.
+        Fórmula ejemplo: velocidad / 5
+        """
+        return self.velocidad / 5
+
+
+if __name__ == "__main__":
+    # Ejemplo de uso
+    coche1 = Coche("Toyota", 120, 4)
+    moto1 = Moto("Honda", 80, "Jet")
+    camion1 = Camion("Volvo", 60, 5000)
+
+    vehiculos = [coche1, moto1, camion1]
+
+    for v in vehiculos:
+        v.acelerar(20)
+        v.mostrar_datos()
+        print(f"Consumo estimado: {v.consumo_combustible():.2f} L/100km\n")
