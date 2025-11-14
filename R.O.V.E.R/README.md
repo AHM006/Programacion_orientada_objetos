@@ -22,6 +22,3 @@ Lara Hernández Daniel
 Villalva Cervantes Jovany
 
 
-Simulación paso a paso del movimiento del panel en función de la iluminación.
-
-Esta implementación permite probar, documentar y comprender el sistema sin conectar hardware.
